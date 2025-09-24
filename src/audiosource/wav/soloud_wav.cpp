@@ -86,8 +86,34 @@ namespace SoLoud
 	Wav::~Wav()
 	{
 		stop();
-		delete[] mData;
+        if (mData)
+		    delete[] mData;
 	}
+
+    Wav::Wav(Wav&& other) noexcept {
+        if (this != &other) {
+            mData = other.mData;
+            mSampleCount = other.mSampleCount;
+
+            other.mData = nullptr;
+            other.mSampleCount = 0;
+        }
+    }
+
+    Wav& Wav::operator=(Wav&& other) noexcept {
+        if (this != &other) {
+            if (mData)
+                delete[] mData;
+
+            mData = other.mData;
+            mSampleCount = other.mSampleCount;
+
+            other.mData = nullptr;
+            other.mSampleCount = 0;
+        }
+
+        return *this;
+    }
 
 #define MAKEDWORD(a,b,c,d) (((d) << 24) | ((c) << 16) | ((b) << 8) | (a))
 

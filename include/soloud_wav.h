@@ -59,6 +59,13 @@ namespace SoLoud
 
 		Wav();
 		virtual ~Wav();
+
+        Wav(const Wav&) = delete;
+        Wav& operator= (const Wav&) = delete;
+
+        Wav(Wav&& other) noexcept;
+        Wav& operator= (Wav&& other) noexcept;
+
 		result load(const char *aFilename);
 		result loadMem(const unsigned char *aMem, unsigned int aLength, bool aCopy = false, bool aTakeOwnership = true);
 		result loadFile(File *aFile);
